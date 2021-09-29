@@ -240,5 +240,6 @@ function calculateStepsCausedWin(squares)
 
 function isDraw(squares)
 {
-  return !squares.includes(null);
+  const isWin=calculateWinner(squares)!==null?true:false;
+  return !(squares.includes(null) || isWin);
 }
