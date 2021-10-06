@@ -1,5 +1,10 @@
+import Game from './components/game';
+import './index.css';
 
-/*
-Notice that you now have three files in your project:
-"App.js", "index.js", and "index.html".
-*/
+const App = () => {
+    return (
+        <Game/>
+    );
+}
+
+export default App;
