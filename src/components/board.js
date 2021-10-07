@@ -1,16 +1,30 @@
 import Square from './square';
-
+import {calculateWinner} from './game';
 
 const Board =({squares, boardSize, onClick}) => {
-  const stepsCausedWin=calculateStepsCausedWin(squares);
+
+  const tmp=calculateWinner(squares,boardSize);
+  let stepsCausedWin=null,steps=[];
+  if(tmp!==null)
+    if(tmp.winner==='0')
+      stepsCausedWin = tmp.pathO;
+    else if(tmp.winner==='X')
+      stepsCausedWin = tmp.pathX;
+  
+  if(stepsCausedWin!==null)
+    for(let i=0;i<5;i++){
+      const [h,k]=stepsCausedWin[i];
+      steps[i]=h*boardSize+k;
+    }
+  
   let detail=[];
-  for(var i =0;i<3;i++)
+  for(var i =0;i<boardSize;i++)
   {
     let row=[];
-    for(var j=0;j<3;j++)
+    for(var j=0;j<boardSize;j++)
     {
-      const value= 3*i+j;
-      const isHighlight=(stepsCausedWin.includes(value))? true: false;
+      const value= boardSize*i+j;
+      const isHighlight=(steps.includes(value))? true: false;
       row.push((RenderSquare(squares, value ,isHighlight, onClick)));
     }
     detail.push(<div className="board-row">{row}</div>);
@@ -32,25 +46,5 @@ const RenderSquare = (squares, index, isHighlight,onClick) => {
   );
 }
 
-const  calculateStepsCausedWin = (squares)=>
-{
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return [a,b,c];
-    }
-  }
-  return [];
-}
 
 export default Board;

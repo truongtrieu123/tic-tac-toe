@@ -1,6 +1,6 @@
 
 
-const  HistoryList = ({history, stepNumber, isAscendingOrder, onClick, sliderButtonClick})=>
+const  HistoryList = ({history, stepNumber, isAscendingOrder, boardSize, onClick, sliderButtonClick})=>
 {
     const handleCurrentMoveClick=(move)=>
     {
@@ -13,7 +13,7 @@ const  HistoryList = ({history, stepNumber, isAscendingOrder, onClick, sliderBut
     }
 
     const moves = history.map((step, move) => {
-        const [row,col]=findLocation(step.index);
+        const [row,col]=findLocation(step.index,boardSize);
         const desc = move ?
         'Go to move #' + move +'('+row+','+col+')':
         'Go to game start';
@@ -38,12 +38,11 @@ const  HistoryList = ({history, stepNumber, isAscendingOrder, onClick, sliderBut
 }
 
 
-const findLocation = (index) =>{
-  const location=[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]];
+const findLocation = (index,boardSize) =>{
 
   if(index===-1||isNaN(index))
     return [-1,-1];
-  return location[index];
+  return [parseInt(index/boardSize), parseInt(index%boardSize)];
 }
 
 export default HistoryList;
